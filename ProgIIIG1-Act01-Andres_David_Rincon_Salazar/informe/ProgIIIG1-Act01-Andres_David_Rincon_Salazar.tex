@@ -1,0 +1,367 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\graphicspath{{plantilla/}}
+
+\lstset{
+    language=Prolog,
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    framesep=4pt,
+    tabsize=4,
+    aboveskip=8pt,
+    belowskip=8pt
+}
+
+\def \unidad{\textbf{Facultad de Ingenierías}}
+\def \programa{Ingeniería de Sistemas y Computación}
+\def \curso{IS453}
+\def \titulo{ProgIIIG1}
+\def \subtitulo {Actividad01 : Lógica de Predicados y Prolog}
+\def \autores{
+    Andrés David Rincón Salazar\\
+    andres.rincon2@utp.edu.co\\
+    ID: 11.289.05.513\\
+}
+\def \fecha{- Septiembre 2026 -}
+\def \lugar{\textbf{Pereira, Colombia}}
+
+
+\begin{document}
+\input{plantilla/portada}
+\tableofcontents
+\newpage
+
+
+%===============================================================================
+% INTRODUCCION
+%===============================================================================
+\chapter{Introducción}
+
+Esta actividad presenta dos programas en lenguaje Prolog:
+
+\begin{itemize}
+    \item \textbf{Punto 1:} árbol genealógico en el que las relaciones
+          directas (padre/madre) son \emph{hechos} y las relaciones de más
+          de una generación (abuelo, tío, primo, entre otras) se obtienen
+          por \emph{reglas}.
+    \item \textbf{Punto 2:} formalización de la ley ``es crimen para un
+          estadounidense vender armas a naciones hostiles'', con la
+          demostración de que el Coronel West es un criminal.
+\end{itemize}
+
+Cada programa incluye su encabezado descriptivo (propósito, predicados y
+salvedades), comentarios de sección sobre hechos y reglas, y un bloque de
+consultas de validación con sus resultados.
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 1
+%===============================================================================
+\chapter{Punto 1: Árbol genealógico}
+
+\begin{lstlisting}[caption={ProgIIIG1-Act01-Pto01-Andres\_David\_Rincon\_Salazar.pl}]
+/*
+===============================================================================
+Publication Date: 2026-09-23
+Publication Time: 19:05
+Code Version: 1.1
+Author: Ing(c) Andres David Rincon Salazar
+Programming Language: Prolog
+Language Version: ISO/IEC 13211-1 (SWI-Prolog 10.0.2)
+Compiler: SWI-Prolog 10.0.2
+Operating System: Windows 11 - 24H2
+Presented to: Ramiro Andres Barrios Valencia
+University: Universidad Tecnologica de Pereira
+Program: Ingenieria de Sistemas y Computacion
+
+Program Description:
+Family tree modeled with first-order predicates. Direct relationships
+(father and mother) are asserted as facts; multi-generation relationships
+(grandparents, siblings, uncles/aunts and cousins) are obtained only by
+rules, as required by the activity. Validation queries are included at
+the end of the file.
+
+Predicates description:
+- padre_de(Padre, Hijo), madre_de(Madre, Hijo): (facts) direct relations.
+- hombre/1, mujer/1: (facts + rules) gender of each individual.
+- progenitor_de(Parent, Child): (rule) generic parent (father or mother).
+- es_hijo(Hijo, Padre): (rule) true when Hijo is child of Padre.
+- hermano_de/2, hermana_de/2: (rules) siblings sharing one progenitor.
+- abuelo_de/2, abuela_de/2: (rules) grandparents (more than one generation).
+- tio_de/2, tia_de/2: (rules) uncle/aunt: sibling of a progenitor.
+- primo_de/2, prima_de/2: (rules) cousins; gender checked on 1st argument.
+
+Warnings (Salvedades):
+- SWI-Prolog warns that clauses of hombre/1 and mujer/1 are not together;
+  the program logic is not affected.
+- Some queries may repeat solutions (two parents / gender proofs).
+- primo_de/2 and prima_de/2 only check the gender of the first argument.
+===============================================================================
+*/
+
+%===============================================================================
+% FACTS: direct one-generation relationships (father/mother)
+%===============================================================================
+padre_de(abraham, homero).
+padre_de(abraham, herbert).
+padre_de(homero, bart).
+padre_de(homero, lisa).
+padre_de(homero, maggie).
+padre_de(clancy, patty).
+padre_de(clancy, selma).
+padre_de(clancy, marge).
+
+madre_de(mona, homero).
+madre_de(marge, bart).
+madre_de(marge, lisa).
+madre_de(marge, maggie).
+madre_de(jacqueline, patty).
+madre_de(jacqueline, selma).
+madre_de(jacqueline, marge).
+madre_de(selma, ling).
+
+%===============================================================================
+% FACTS: gender of individuals not inferred by being a parent
+%===============================================================================
+hombre(herbert).
+hombre(bart).
+
+mujer(lisa).
+mujer(maggie).
+mujer(patty).
+mujer(ling).
+
+%===============================================================================
+% RULES: gender inference for every parent
+%===============================================================================
+hombre(Nombre) :- padre_de(Nombre, _).
+mujer(Nombre)  :- madre_de(Nombre, _).
+
+%===============================================================================
+% AUXILIARY RULE: generic parent (father or mother)
+%===============================================================================
+progenitor_de(Padre, Hijo) :- padre_de(Padre, Hijo).
+progenitor_de(Madre, Hijo) :- madre_de(Madre, Hijo).
+
+%===============================================================================
+% RULE: child of a parent (es_hijo(Hijo, Padre))
+%===============================================================================
+es_hijo(Hijo, Padre) :-
+    progenitor_de(Padre, Hijo).
+
+%===============================================================================
+% RULES: siblings (share at least one parent and are distinct)
+%===============================================================================
+hermano_de(Hijo1, Hijo2):-
+    progenitor_de(Padre, Hijo1),
+    progenitor_de(Padre, Hijo2),
+    Hijo1 \= Hijo2,
+    hombre(Hijo1).
+
+hermana_de(Hijo1, Hijo2):-
+    progenitor_de(Padre, Hijo1),
+    progenitor_de(Padre, Hijo2),
+    Hijo1 \= Hijo2,
+    mujer(Hijo1).
+
+%===============================================================================
+% RULES: multi-generation relationships (grandfather/grandmother)
+%===============================================================================
+abuelo_de(Abuelo, Nieto):-
+    padre_de(Abuelo, Padre),
+    progenitor_de(Padre, Nieto).
+
+abuela_de(Abuela, Nieto):-
+    madre_de(Abuela, Madre),
+    progenitor_de(Madre, Nieto).
+
+%===============================================================================
+% RULES: uncles/aunts (sibling of a parent of the nephew/niece)
+%===============================================================================
+tio_de(Tio, Sobrino):-
+    progenitor_de(Padre, Sobrino),
+    hermano_de(Tio, Padre).
+
+tia_de(Tia, Sobrino):-
+    progenitor_de(Madre, Sobrino),
+    hermana_de(Tia, Madre).
+
+%===============================================================================
+% RULES: cousins (children of siblings; gender checked on 1st argument)
+%===============================================================================
+primo_de(Primo, Primo2):-
+    progenitor_de(Padre1, Primo),
+    progenitor_de(Padre2, Primo2),
+    Padre1 \= Padre2,
+    ( hermano_de(Padre1, Padre2) ; hermana_de(Padre1, Padre2) ),
+	hombre(Primo).
+
+prima_de(Prima, Prima2):-
+    progenitor_de(Padre1, Prima),
+    progenitor_de(Padre2, Prima2),
+    Padre1 \= Padre2,
+    ( hermano_de(Padre1, Padre2) ; hermana_de(Padre1, Padre2) ),
+	mujer(Prima).
+
+/*
+===============================================================================
+Validation queries
+===============================================================================
+?- padre_de(homero, bart).
+true.
+?- madre_de(marge, lisa).
+true.
+?- es_hijo(bart, homero).
+true.
+?- es_hijo(X, homero).
+X = bart ;
+X = lisa ;
+X = maggie.
+?- abuelo_de(abraham, X).
+X = bart ;
+X = lisa ;
+X = maggie.
+?- abuela_de(mona, bart).
+true.
+?- hermano_de(bart, lisa).
+true.
+?- hermana_de(lisa, bart).
+true.
+?- tio_de(herbert, bart).
+true.
+?- tia_de(patty, bart).
+true.
+?- primo_de(bart, ling).
+true.
+?- prima_de(ling, bart).
+true.
+?- abuelo_de(bart, X).
+false.
+===============================================================================
+*/
+\end{lstlisting}
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 2
+%===============================================================================
+\chapter{Punto 2: El Coronel West es un criminal}
+
+\begin{lstlisting}[caption={ProgIIIG1-Act01-Pto02-Andres\_David\_Rincon\_Salazar.pl}]
+/*
+===============================================================================
+Publication Date: 2026-09-23
+Publication Time: 19:05
+Code Version: 1.1
+Author: Ing(c) Andres David Rincon Salazar
+Programming Language: Prolog
+Language Version: ISO/IEC 13211-1 (SWI-Prolog 10.0.2)
+Compiler: SWI-Prolog 10.0.2
+Operating System: Windows 11 - 24H2
+Presented to: Ramiro Andres Barrios Valencia
+University: Universidad Tecnologica de Pereira
+Program: Ingenieria de Sistemas y Computacion
+
+Program Description:
+Formalization in predicate logic of the legal statement: "It is a crime
+for an American to sell weapons to a hostile nation." Facts state that
+West is American, that South Korea is a hostile nation and that West sold
+weapons to South Korea. A rule defines criminality as the conjunction of
+those conditions, proving that Colonel West is a criminal. Validation
+queries are included at the end of the file.
+
+Predicates description:
+- es_estadounidense(Persona): (fact) Persona is an American citizen.
+- es_pais_enemigo(Pais): (fact) Pais is a hostile nation.
+- venta_de_armas(Persona, Pais): (fact) Persona sold weapons to Pais.
+- es_criminal(Persona): (rule) criminal if American, seller of weapons,
+  and the buyer country is hostile.
+
+Warnings (Salvedades):
+- The missiles of the problem statement are represented by the single
+  fact venta_de_armas(west, corea_del_sur); the conclusion remains valid.
+- Closed-world scenario: only west and corea_del_sur are modeled.
+===============================================================================
+*/
+
+% La ley dice que es un crimen para un Estadounidense vender armas a naciones
+% hostiles. Corea del Sur, enemigo de Estados Unidos, tiene algunos misiles, y todos
+% sus misiles les fueron vendidos por el Coronel West, quien es Estadounidense.
+% Pruebe que el Col. West es un criminal.
+
+%===============================================================================
+% FACTS: premises from the problem statement
+%===============================================================================
+es_estadounidense(west).
+
+es_pais_enemigo(corea_del_sur).
+
+venta_de_armas(west, corea_del_sur).
+
+%===============================================================================
+% RULE: a person is a criminal if American, sells weapons, and the
+% buyer country is hostile
+%===============================================================================
+es_criminal(Persona) :- 
+    es_estadounidense(Persona), 
+    venta_de_armas(Persona, Pais), 
+    es_pais_enemigo(Pais).
+
+/*
+===============================================================================
+Validation queries
+===============================================================================
+?- es_estadounidense(west).
+true.
+?- es_pais_enemigo(corea_del_sur).
+true.
+?- venta_de_armas(west, corea_del_sur).
+true.
+?- es_criminal(west).
+true.
+?- es_criminal(X).
+X = west.
+?- es_criminal(homero).
+false.
+===============================================================================
+*/
+\end{lstlisting}
+
+\newpage
+
+
+%===============================================================================
+% REPOSITORIO
+%===============================================================================
+\chapter{Repositorio}
+
+El código fuente de esta actividad y el resto de actividades que ponga durante el semestre está y estarán disponible en GitHub:
+
+\begin{center}
+    \url{https://github.com/1594-adrs/ProgIIIG1-Andres_David_Rincon_Salazar}
+\end{center}
+
+
+\end{document}
