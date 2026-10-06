@@ -1,0 +1,67 @@
+\begin{forest} arbolsld
+[{caminar(norte,norte,7,\lbrack\rbrack ,$P_{0}$)}
+  [{\ligadura{$P_{0}$/\lbrack\rbrack}\\length(\lbrack\rbrack ,7)}
+    [{false}, fallo
+    ]
+  ]
+  [{cruce($Id_{0}$,norte,$Siguiente_{0}$),\\not(memberchk(paso($Id_{0}$,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar($Siguiente_{0}$,norte,7,\lbrack paso($Id_{0}$,norte,$Siguiente_{0}$)\rbrack ,$P_{0}$)}
+    [{puente($Id_{0}$,norte,$Siguiente_{0}$),\\not(memberchk(paso($Id_{0}$,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar($Siguiente_{0}$,norte,7,\lbrack paso($Id_{0}$,norte,$Siguiente_{0}$)\rbrack ,$P_{0}$)}
+      [{\ligadura{$Id_{0}$/b1, $Siguiente_{0}$/kneiphof}\\not(memberchk(paso(b1,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar(kneiphof,norte,7,\lbrack paso(b1,norte,kneiphof)\rbrack ,$P_{0}$)}
+        [{memberchk(paso(b1,$X_{0}$,$Y_{0}$),\lbrack\rbrack )\\$\Rightarrow$ false}, negacion
+          [{caminar(kneiphof,norte,7,\lbrack paso(b1,norte,kneiphof)\rbrack ,$P_{0}$)}
+            [{cruce($Id_{1}$,kneiphof,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b1,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b1,norte,kneiphof)\rbrack ,$P_{0}$)}
+              [{puente($Id_{1}$,kneiphof,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b1,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b1,norte,kneiphof)\rbrack ,$P_{0}$)}
+                [{$\cdots$}, corte]
+              ]
+              [{puente($Id_{1}$,$Siguiente_{1}$,kneiphof),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b1,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b1,norte,kneiphof)\rbrack ,$P_{0}$)}
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+              ]
+            ]
+          ]
+        ]
+      ]
+      [{\ligadura{$Id_{0}$/b2, $Siguiente_{0}$/kneiphof}\\not(memberchk(paso(b2,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar(kneiphof,norte,7,\lbrack paso(b2,norte,kneiphof)\rbrack ,$P_{0}$)}
+        [{memberchk(paso(b2,$X_{0}$,$Y_{0}$),\lbrack\rbrack )\\$\Rightarrow$ false}, negacion
+          [{caminar(kneiphof,norte,7,\lbrack paso(b2,norte,kneiphof)\rbrack ,$P_{0}$)}
+            [{cruce($Id_{1}$,kneiphof,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b2,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b2,norte,kneiphof)\rbrack ,$P_{0}$)}
+              [{puente($Id_{1}$,kneiphof,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b2,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b2,norte,kneiphof)\rbrack ,$P_{0}$)}
+                [{$\cdots$}, corte]
+              ]
+              [{puente($Id_{1}$,$Siguiente_{1}$,kneiphof),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b2,norte,kneiphof)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,kneiphof,$Siguiente_{1}$),paso(b2,norte,kneiphof)\rbrack ,$P_{0}$)}
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+              ]
+            ]
+          ]
+        ]
+      ]
+      [{\ligadura{$Id_{0}$/b5, $Siguiente_{0}$/este}\\not(memberchk(paso(b5,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar(este,norte,7,\lbrack paso(b5,norte,este)\rbrack ,$P_{0}$)}
+        [{memberchk(paso(b5,$X_{0}$,$Y_{0}$),\lbrack\rbrack )\\$\Rightarrow$ false}, negacion
+          [{caminar(este,norte,7,\lbrack paso(b5,norte,este)\rbrack ,$P_{0}$)}
+            [{cruce($Id_{1}$,este,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b5,norte,este)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,este,$Siguiente_{1}$),paso(b5,norte,este)\rbrack ,$P_{0}$)}
+              [{puente($Id_{1}$,este,$Siguiente_{1}$),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b5,norte,este)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,este,$Siguiente_{1}$),paso(b5,norte,este)\rbrack ,$P_{0}$)}
+                [{false}, fallo
+                ]
+              ]
+              [{puente($Id_{1}$,$Siguiente_{1}$,este),\\not(memberchk(paso($Id_{1}$,$X_{1}$,$Y_{1}$),\lbrack paso(b5,norte,este)\rbrack )),\\caminar($Siguiente_{1}$,norte,7,\lbrack paso($Id_{1}$,este,$Siguiente_{1}$),paso(b5,norte,este)\rbrack ,$P_{0}$)}
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+                [{$\cdots$}, corte]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+    [{puente($Id_{0}$,$Siguiente_{0}$,norte),\\not(memberchk(paso($Id_{0}$,$X_{0}$,$Y_{0}$),\lbrack\rbrack )),\\caminar($Siguiente_{0}$,norte,7,\lbrack paso($Id_{0}$,norte,$Siguiente_{0}$)\rbrack ,$P_{0}$)}
+      [{false}, fallo
+      ]
+    ]
+  ]
+]
+\end{forest}

@@ -1,0 +1,130 @@
+\begin{forest} arbolsld
+[{ruta\_ingenua(edmonton,calgary)}
+  [{arista(edmonton,calgary,$C_{0}$)}
+    [{false}, fallo
+    ]
+  ]
+  [{arista(edmonton,$Intermedio_{0}$,$C_{0}$),\\ruta\_ingenua($Intermedio_{0}$,calgary)}
+    [{\ligadura{$Intermedio_{0}$/saskatoon, $C_{0}$/12}\\ruta\_ingenua(saskatoon,calgary)}
+      [{arista(saskatoon,calgary,$C_{1}$)}
+        [{\ligadura{$C_{1}$/9}\\true}, exito
+        ]
+      ]
+      [{arista(saskatoon,$Intermedio_{1}$,$C_{1}$),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+        [{\ligadura{$Intermedio_{1}$/calgary, $C_{1}$/9}\\ruta\_ingenua(calgary,calgary)}
+          [{arista(calgary,calgary,$C_{2}$)}
+            [{false}, fallo
+            ]
+          ]
+          [{arista(calgary,$Intermedio_{2}$,$C_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+            [{\ligadura{$Intermedio_{2}$/edmonton, $C_{2}$/4}\\ruta\_ingenua(edmonton,calgary)}
+              [{arista(edmonton,calgary,$C_{3}$)}
+                [{false}, fallo
+                ]
+              ]
+              [{arista(edmonton,$Intermedio_{3}$,$C_{3}$),\\ruta\_ingenua($Intermedio_{3}$,calgary)}
+                [{\ligadura{$Intermedio_{3}$/saskatoon, $C_{3}$/12}\\ruta\_ingenua(saskatoon,calgary)}
+                  [{arista(saskatoon,calgary,$C_{4}$)}
+                    [{\ligadura{$C_{4}$/9}\\true}, exito
+                    ]
+                  ]
+                  [{arista(saskatoon,$Intermedio_{4}$,$C_{4}$),\\ruta\_ingenua($Intermedio_{4}$,calgary)}
+                    [{\ligadura{$Intermedio_{4}$/calgary, $C_{4}$/9}\\ruta\_ingenua(calgary,calgary)}
+                      [{arista(calgary,calgary,$C_{5}$)}
+                        [{false}, fallo
+                        ]
+                      ]
+                      [{arista(calgary,$Intermedio_{5}$,$C_{5}$),\\ruta\_ingenua($Intermedio_{5}$,calgary)}
+                        [{\ligadura{$Intermedio_{5}$/edmonton, $C_{5}$/4}\\ruta\_ingenua(edmonton,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                        [{\ligadura{$Intermedio_{5}$/regina, $C_{5}$/14}\\ruta\_ingenua(regina,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                      ]
+                    ]
+                    [{\ligadura{$Intermedio_{4}$/winnipeg, $C_{4}$/20}\\ruta\_ingenua(winnipeg,calgary)}
+                      [{arista(winnipeg,calgary,$C_{5}$)}
+                        [{false}, fallo
+                        ]
+                      ]
+                      [{arista(winnipeg,$Intermedio_{5}$,$C_{5}$),\\ruta\_ingenua($Intermedio_{5}$,calgary)}
+                        [{false}, fallo
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            [{\ligadura{$Intermedio_{2}$/regina, $C_{2}$/14}\\ruta\_ingenua(regina,calgary)}
+              [{arista(regina,calgary,$C_{3}$)}
+                [{false}, fallo
+                ]
+              ]
+              [{arista(regina,$Intermedio_{3}$,$C_{3}$),\\ruta\_ingenua($Intermedio_{3}$,calgary)}
+                [{\ligadura{$Intermedio_{3}$/saskatoon, $C_{3}$/7}\\ruta\_ingenua(saskatoon,calgary)}
+                  [{arista(saskatoon,calgary,$C_{4}$)}
+                    [{\ligadura{$C_{4}$/9}\\true}, exito
+                    ]
+                  ]
+                  [{arista(saskatoon,$Intermedio_{4}$,$C_{4}$),\\ruta\_ingenua($Intermedio_{4}$,calgary)}
+                    [{\ligadura{$Intermedio_{4}$/calgary, $C_{4}$/9}\\ruta\_ingenua(calgary,calgary)}
+                      [{arista(calgary,calgary,$C_{5}$)}
+                        [{false}, fallo
+                        ]
+                      ]
+                      [{arista(calgary,$Intermedio_{5}$,$C_{5}$),\\ruta\_ingenua($Intermedio_{5}$,calgary)}
+                        [{\ligadura{$Intermedio_{5}$/edmonton, $C_{5}$/4}\\ruta\_ingenua(edmonton,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                        [{\ligadura{$Intermedio_{5}$/regina, $C_{5}$/14}\\ruta\_ingenua(regina,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                      ]
+                    ]
+                    [{\ligadura{$Intermedio_{4}$/winnipeg, $C_{4}$/20}\\ruta\_ingenua(winnipeg,calgary)}
+                      [{arista(winnipeg,calgary,$C_{5}$)}
+                        [{false}, fallo
+                        ]
+                      ]
+                      [{arista(winnipeg,$Intermedio_{5}$,$C_{5}$),\\ruta\_ingenua($Intermedio_{5}$,calgary)}
+                        [{false}, fallo
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+                [{\ligadura{$Intermedio_{3}$/winnipeg, $C_{3}$/4}\\ruta\_ingenua(winnipeg,calgary)}
+                  [{arista(winnipeg,calgary,$C_{4}$)}
+                    [{false}, fallo
+                    ]
+                  ]
+                  [{arista(winnipeg,$Intermedio_{4}$,$C_{4}$),\\ruta\_ingenua($Intermedio_{4}$,calgary)}
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [{\ligadura{$Intermedio_{1}$/winnipeg, $C_{1}$/20}\\ruta\_ingenua(winnipeg,calgary)}
+          [{arista(winnipeg,calgary,$C_{2}$)}
+            [{false}, fallo
+            ]
+          ]
+          [{arista(winnipeg,$Intermedio_{2}$,$C_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+            [{false}, fallo
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{forest}

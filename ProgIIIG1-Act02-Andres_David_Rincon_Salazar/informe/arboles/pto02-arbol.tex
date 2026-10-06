@@ -1,0 +1,72 @@
+\begin{forest} arbolsld
+[{recorrer(coruna,vigo,\lbrack coruna\rbrack ,$R_{0}$,$Km_{0}$)}
+  [{conectadas(coruna,$Siguiente_{0}$,$Km1_{0}$),\\not(memberchk($Siguiente_{0}$,\lbrack coruna\rbrack )),\\recorrer($Siguiente_{0}$,vigo,\lbrack $Siguiente_{0}$,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is $Km1_{0}$+$Km2_{0}$}
+    [{carretera(coruna,$Siguiente_{0}$,$Km1_{0}$),\\not(memberchk($Siguiente_{0}$,\lbrack coruna\rbrack )),\\recorrer($Siguiente_{0}$,vigo,\lbrack $Siguiente_{0}$,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is $Km1_{0}$+$Km2_{0}$}
+      [{\ligadura{$Siguiente_{0}$/vigo, $Km1_{0}$/171}\\not(memberchk(vigo,\lbrack coruna\rbrack )),\\recorrer(vigo,vigo,\lbrack vigo,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is 171+$Km2_{0}$}
+        [{memberchk(vigo,\lbrack coruna\rbrack )\\$\Rightarrow$ false}, negacion
+          [{recorrer(vigo,vigo,\lbrack vigo,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is 171+$Km2_{0}$}
+            [{\ligadura{$R_{0}$/\lbrack vigo,coruna\rbrack , $Km2_{0}$/0}\\$Km_{0}$ is 171+0}
+              [{\ligadura{$Km_{0}$/171}\\true}, exito
+              ]
+            ]
+            [{conectadas(vigo,$Siguiente_{1}$,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack vigo,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,vigo,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 171+$Km2_{0}$}
+              [{carretera(vigo,$Siguiente_{1}$,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack vigo,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,vigo,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 171+$Km2_{0}$}
+                [{\ligadura{$Siguiente_{1}$/valladolid, $Km1_{1}$/356}\\not(memberchk(valladolid,\lbrack vigo,coruna\rbrack )),\\recorrer(valladolid,vigo,\lbrack valladolid,vigo,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 356+$Km2_{1}$,\\$Km_{0}$ is 171+$Km2_{0}$}
+                  [{memberchk(valladolid,\lbrack vigo,coruna\rbrack )\\$\Rightarrow$ false}, negacion
+                    [{$\cdots$}, corte]
+                  ]
+                ]
+              ]
+              [{carretera($Siguiente_{1}$,vigo,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack vigo,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,vigo,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 171+$Km2_{0}$}
+                [{\ligadura{$Siguiente_{1}$/coruna, $Km1_{1}$/171}\\not(memberchk(coruna,\lbrack vigo,coruna\rbrack )),\\recorrer(coruna,vigo,\lbrack coruna,vigo,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 171+$Km2_{1}$,\\$Km_{0}$ is 171+$Km2_{0}$}
+                  [{memberchk(coruna,\lbrack vigo,coruna\rbrack )\\$\Rightarrow$ true}, negacion
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      [{\ligadura{$Siguiente_{0}$/valladolid, $Km1_{0}$/455}\\not(memberchk(valladolid,\lbrack coruna\rbrack )),\\recorrer(valladolid,vigo,\lbrack valladolid,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is 455+$Km2_{0}$}
+        [{memberchk(valladolid,\lbrack coruna\rbrack )\\$\Rightarrow$ false}, negacion
+          [{recorrer(valladolid,vigo,\lbrack valladolid,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is 455+$Km2_{0}$}
+            [{conectadas(valladolid,$Siguiente_{1}$,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack valladolid,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+              [{carretera(valladolid,$Siguiente_{1}$,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack valladolid,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                [{\ligadura{$Siguiente_{1}$/bilbao, $Km1_{1}$/280}\\not(memberchk(bilbao,\lbrack valladolid,coruna\rbrack )),\\recorrer(bilbao,vigo,\lbrack bilbao,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 280+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                  [{memberchk(bilbao,\lbrack valladolid,coruna\rbrack )\\$\Rightarrow$ false}, negacion
+                    [{$\cdots$}, corte]
+                  ]
+                ]
+                [{\ligadura{$Siguiente_{1}$/madrid, $Km1_{1}$/193}\\not(memberchk(madrid,\lbrack valladolid,coruna\rbrack )),\\recorrer(madrid,vigo,\lbrack madrid,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 193+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                  [{memberchk(madrid,\lbrack valladolid,coruna\rbrack )\\$\Rightarrow$ false}, negacion
+                    [{$\cdots$}, corte]
+                  ]
+                ]
+              ]
+              [{carretera($Siguiente_{1}$,valladolid,$Km1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack valladolid,coruna\rbrack )),\\recorrer($Siguiente_{1}$,vigo,\lbrack $Siguiente_{1}$,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is $Km1_{1}$+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                [{\ligadura{$Siguiente_{1}$/coruna, $Km1_{1}$/455}\\not(memberchk(coruna,\lbrack valladolid,coruna\rbrack )),\\recorrer(coruna,vigo,\lbrack coruna,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 455+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                  [{memberchk(coruna,\lbrack valladolid,coruna\rbrack )\\$\Rightarrow$ true}, negacion
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+                [{\ligadura{$Siguiente_{1}$/vigo, $Km1_{1}$/356}\\not(memberchk(vigo,\lbrack valladolid,coruna\rbrack )),\\recorrer(vigo,vigo,\lbrack vigo,valladolid,coruna\rbrack ,$R_{0}$,$Km2_{1}$),\\$Km2_{0}$ is 356+$Km2_{1}$,\\$Km_{0}$ is 455+$Km2_{0}$}
+                  [{memberchk(vigo,\lbrack valladolid,coruna\rbrack )\\$\Rightarrow$ false}, negacion
+                    [{$\cdots$}, corte]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+    [{carretera($Siguiente_{0}$,coruna,$Km1_{0}$),\\not(memberchk($Siguiente_{0}$,\lbrack coruna\rbrack )),\\recorrer($Siguiente_{0}$,vigo,\lbrack $Siguiente_{0}$,coruna\rbrack ,$R_{0}$,$Km2_{0}$),\\$Km_{0}$ is $Km1_{0}$+$Km2_{0}$}
+      [{false}, fallo
+      ]
+    ]
+  ]
+]
+\end{forest}
