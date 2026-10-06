@@ -1,0 +1,68 @@
+\begin{forest} arbolsld
+[{recorrer(edmonton,calgary,\lbrack edmonton\rbrack ,$R_{0}$,$C_{0}$)}
+  [{arista(edmonton,$Siguiente_{0}$,$C1_{0}$),\\not(memberchk($Siguiente_{0}$,\lbrack edmonton\rbrack )),\\recorrer($Siguiente_{0}$,calgary,\lbrack $Siguiente_{0}$,edmonton\rbrack ,$R_{0}$,$C2_{0}$),\\$C_{0}$ is $C1_{0}$+$C2_{0}$}
+    [{\ligadura{$Siguiente_{0}$/saskatoon, $C1_{0}$/12}\\not(memberchk(saskatoon,\lbrack edmonton\rbrack )),\\recorrer(saskatoon,calgary,\lbrack saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{0}$),\\$C_{0}$ is 12+$C2_{0}$}
+      [{memberchk(saskatoon,\lbrack edmonton\rbrack )\\$\Rightarrow$ false}, negacion
+        [{recorrer(saskatoon,calgary,\lbrack saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{0}$),\\$C_{0}$ is 12+$C2_{0}$}
+          [{arista(saskatoon,$Siguiente_{1}$,$C1_{1}$),\\not(memberchk($Siguiente_{1}$,\lbrack saskatoon,edmonton\rbrack )),\\recorrer($Siguiente_{1}$,calgary,\lbrack $Siguiente_{1}$,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{1}$),\\$C2_{0}$ is $C1_{1}$+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+            [{\ligadura{$Siguiente_{1}$/calgary, $C1_{1}$/9}\\not(memberchk(calgary,\lbrack saskatoon,edmonton\rbrack )),\\recorrer(calgary,calgary,\lbrack calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{1}$),\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+              [{memberchk(calgary,\lbrack saskatoon,edmonton\rbrack )\\$\Rightarrow$ false}, negacion
+                [{recorrer(calgary,calgary,\lbrack calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{1}$),\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                  [{\ligadura{$R_{0}$/\lbrack calgary,saskatoon,edmonton\rbrack , $C2_{1}$/0}\\$C2_{0}$ is 9+0,\\$C_{0}$ is 12+$C2_{0}$}
+                    [{\ligadura{$C2_{0}$/9}\\$C_{0}$ is 12+9}
+                      [{\ligadura{$C_{0}$/21}\\true}, exito
+                      ]
+                    ]
+                  ]
+                  [{arista(calgary,$Siguiente_{2}$,$C1_{2}$),\\not(memberchk($Siguiente_{2}$,\lbrack calgary,saskatoon,edmonton\rbrack )),\\recorrer($Siguiente_{2}$,calgary,\lbrack $Siguiente_{2}$,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{2}$),\\$C2_{1}$ is $C1_{2}$+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                    [{\ligadura{$Siguiente_{2}$/edmonton, $C1_{2}$/4}\\not(memberchk(edmonton,\lbrack calgary,saskatoon,edmonton\rbrack )),\\recorrer(edmonton,calgary,\lbrack edmonton,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{2}$),\\$C2_{1}$ is 4+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                      [{memberchk(edmonton,\lbrack calgary,saskatoon,edmonton\rbrack )\\$\Rightarrow$ true}, negacion
+                        [{false}, fallo
+                        ]
+                      ]
+                    ]
+                    [{\ligadura{$Siguiente_{2}$/regina, $C1_{2}$/14}\\not(memberchk(regina,\lbrack calgary,saskatoon,edmonton\rbrack )),\\recorrer(regina,calgary,\lbrack regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{2}$),\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                      [{memberchk(regina,\lbrack calgary,saskatoon,edmonton\rbrack )\\$\Rightarrow$ false}, negacion
+                        [{recorrer(regina,calgary,\lbrack regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{2}$),\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                          [{arista(regina,$Siguiente_{3}$,$C1_{3}$),\\not(memberchk($Siguiente_{3}$,\lbrack regina,calgary,saskatoon,edmonton\rbrack )),\\recorrer($Siguiente_{3}$,calgary,\lbrack $Siguiente_{3}$,regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{3}$),\\$C2_{2}$ is $C1_{3}$+$C2_{3}$,\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                            [{\ligadura{$Siguiente_{3}$/saskatoon, $C1_{3}$/7}\\not(memberchk(saskatoon,\lbrack regina,calgary,saskatoon,edmonton\rbrack )),\\recorrer(saskatoon,calgary,\lbrack saskatoon,regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{3}$),\\$C2_{2}$ is 7+$C2_{3}$,\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                              [{memberchk(saskatoon,\lbrack regina,calgary,saskatoon,edmonton\rbrack )\\$\Rightarrow$ true}, negacion
+                                [{false}, fallo
+                                ]
+                              ]
+                            ]
+                            [{\ligadura{$Siguiente_{3}$/winnipeg, $C1_{3}$/4}\\not(memberchk(winnipeg,\lbrack regina,calgary,saskatoon,edmonton\rbrack )),\\recorrer(winnipeg,calgary,\lbrack winnipeg,regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{3}$),\\$C2_{2}$ is 4+$C2_{3}$,\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                              [{memberchk(winnipeg,\lbrack regina,calgary,saskatoon,edmonton\rbrack )\\$\Rightarrow$ false}, negacion
+                                [{recorrer(winnipeg,calgary,\lbrack winnipeg,regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{3}$),\\$C2_{2}$ is 4+$C2_{3}$,\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                                  [{arista(winnipeg,$Siguiente_{4}$,$C1_{4}$),\\not(memberchk($Siguiente_{4}$,\lbrack winnipeg,regina,calgary,saskatoon,edmonton\rbrack )),\\recorrer($Siguiente_{4}$,calgary,\lbrack $Siguiente_{4}$,winnipeg,regina,calgary,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{4}$),\\$C2_{3}$ is $C1_{4}$+$C2_{4}$,\\$C2_{2}$ is 4+$C2_{3}$,\\$C2_{1}$ is 14+$C2_{2}$,\\$C2_{0}$ is 9+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                                    [{false}, fallo
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            [{\ligadura{$Siguiente_{1}$/winnipeg, $C1_{1}$/20}\\not(memberchk(winnipeg,\lbrack saskatoon,edmonton\rbrack )),\\recorrer(winnipeg,calgary,\lbrack winnipeg,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{1}$),\\$C2_{0}$ is 20+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+              [{memberchk(winnipeg,\lbrack saskatoon,edmonton\rbrack )\\$\Rightarrow$ false}, negacion
+                [{recorrer(winnipeg,calgary,\lbrack winnipeg,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{1}$),\\$C2_{0}$ is 20+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                  [{arista(winnipeg,$Siguiente_{2}$,$C1_{2}$),\\not(memberchk($Siguiente_{2}$,\lbrack winnipeg,saskatoon,edmonton\rbrack )),\\recorrer($Siguiente_{2}$,calgary,\lbrack $Siguiente_{2}$,winnipeg,saskatoon,edmonton\rbrack ,$R_{0}$,$C2_{2}$),\\$C2_{1}$ is $C1_{2}$+$C2_{2}$,\\$C2_{0}$ is 20+$C2_{1}$,\\$C_{0}$ is 12+$C2_{0}$}
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{forest}
