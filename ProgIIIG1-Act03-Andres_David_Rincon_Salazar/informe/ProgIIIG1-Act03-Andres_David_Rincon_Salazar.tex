@@ -1,0 +1,226 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\graphicspath{{plantilla/}}
+
+\lstset{
+    language=Prolog,
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    framesep=4pt,
+    tabsize=4,
+    aboveskip=8pt,
+    belowskip=8pt
+}
+
+\def \unidad{\textbf{Facultad de Ingenierías}}
+\def \programa{Ingeniería de Sistemas y Computación}
+\def \curso{IS453}
+\def \titulo{ProgIIIG1}
+\def \subtitulo {Actividad03 : Casos con Listas}
+\def \autores{
+    Andrés David Rincón Salazar\\
+    andres.rincon2@utp.edu.co\\
+    ID: 11.289.05.513\\
+}
+\def \fecha{- Octubre 2026 -}
+\def \lugar{\textbf{Pereira, Colombia}}
+
+
+\begin{document}
+\input{plantilla/portada}
+\tableofcontents
+\newpage
+
+
+%===============================================================================
+% INTRODUCCION
+%===============================================================================
+\chapter{Introducción}
+
+Esta actividad retoma dos ejercicios ya resueltos con hechos simples y los
+reescribe usando \textbf{estructuras} (términos compuestos) y
+\textbf{listas}. Las reglas se modificaron para que, aun con la nueva
+representación de los datos, el programa resuelva exactamente las mismas
+consultas:
+
+\begin{itemize}
+    \item \textbf{Punto 1:} familia Simpson (numeral 1 de la Actividad 1).
+          Los hechos \texttt{padre\_de/2}, \texttt{madre\_de/2},
+          \texttt{hombre/1} y \texttt{mujer/1} se reemplazan por las
+          estructuras \texttt{persona(Nombre, Sexo)} y
+          \texttt{familia(Progenitores, Hijos)}, donde los dos argumentos de
+          \texttt{familia/2} son listas.
+    \item \textbf{Punto 2:} ciudades de Canadá (punto 3 de la Actividad 2).
+          Los hechos \texttt{arista(Origen, Destino, Costo)} se reemplazan
+          por una lista de adyacencia por ciudad,
+          \texttt{nodo(Ciudad, [enlace(Destino, Costo), \ldots])}.
+\end{itemize}
+
+Cada programa conserva su encabezado descriptivo (propósito, predicados y
+salvedades), comentarios de sección y un bloque de consultas de validación.
+
+\section*{Verificación de equivalencia}
+
+Que ``siga resolviendo las mismas consultas'' se comprobó de forma
+automática y no solo con las consultas del encabezado. Se cargaron el
+programa original y el nuevo en SWI-Prolog 10.0.2 y se compararon sus
+respuestas:
+
+\begin{itemize}
+    \item \textbf{Simpson:} para cada uno de los 11 predicados de parentesco
+          se probaron los $13 \times 13$ pares de individuos, y se
+          comparó además la enumeración completa con ambos argumentos sin
+          instanciar y el sexo de cada individuo. Los conjuntos de
+          respuestas son idénticos. El orden de las soluciones sí puede
+          cambiar, porque ahora se recorren listas y no hechos sueltos.
+    \item \textbf{Canadá:} se compararon, con el orden de las soluciones,
+          \texttt{conexion\_directa/3}, \texttt{conectado\_con/4},
+          \texttt{tiene\_aristas/1}, \texttt{camino/4}, \texttt{hay\_camino/2}
+          y \texttt{costo\_via/4} sobre todos los pares y ternas de las seis
+          ciudades más Toronto. Las respuestas son idénticas, también en
+          orden, porque las listas de adyacencia conservan el orden de los
+          hechos originales.
+\end{itemize}
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 1
+%===============================================================================
+\chapter{Punto 1: Familia Simpson}
+
+\section{Cambio de representación}
+
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{5.3cm} >{\raggedright\arraybackslash}p{5.3cm}}
+        \toprule
+        \textbf{Concepto} & \textbf{Actividad 1 (hechos)} & \textbf{Actividad 3 (estructuras y listas)} \\
+        \midrule
+        Padres e hijos & \texttt{padre\_de(homero, bart).}\newline \texttt{madre\_de(marge, bart).}
+                       & \texttt{familia([homero, marge], [bart, lisa, maggie]).} \\
+        Sexo & \texttt{hombre(herbert).}\newline y reglas \texttt{hombre(N) :- padre\_de(N, \_).}
+             & \texttt{persona(herbert, masculino).} \\
+        \texttt{padre\_de/2}, \texttt{madre\_de/2} & hechos
+             & reglas: \texttt{progenitor\_de/2} filtrado por \texttt{hombre/1} o \texttt{mujer/1} \\
+        \texttt{progenitor\_de/2} & dos cláusulas (padre o madre)
+             & \texttt{member/2} sobre las listas de una \texttt{familia/2} \\
+        Hermanos, abuelos, primos & recorren \texttt{progenitor\_de/2} de a un hijo
+             & usan \texttt{hijos\_de/2}, que devuelve la lista de hijos con \texttt{findall/3} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Decisiones de diseño:
+
+\begin{itemize}
+    \item El sexo ya no se deduce de ``ser padre'' o ``ser madre'': se
+          declara una vez por persona. Por eso \texttt{padre\_de/2} y
+          \texttt{madre\_de/2} pasan a ser reglas, y los hechos
+          \texttt{hombre/1} y \texttt{mujer/1} dejan de estar repartidos
+          entre hechos y reglas (lo que causaba la advertencia de cláusulas
+          no contiguas de la Actividad 1).
+    \item Herbert y Ling tienen un solo progenitor conocido, así que cada
+          uno va en su propio \texttt{familia/2} con una lista de un
+          elemento. Meter a Herbert en la familia de Homero haría a Mona su
+          madre, algo que la Actividad 1 nunca afirmó.
+    \item Una persona sin hecho \texttt{persona/2} no tiene sexo, y las reglas
+          que lo exigen fallan para ella. Cada individuo nuevo debe
+          registrarse.
+\end{itemize}
+
+\section{Código}
+
+\lstinputlisting[caption={ProgIIIG1-Act03-Pto01-Andres\_David\_Rincon\_Salazar.pl}]{../ProgIIIG1-Act03-Pto01-Andres_David_Rincon_Salazar.pl}
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 2
+%===============================================================================
+\chapter{Punto 2: Ciudades de Canadá}
+
+\section{Cambio de representación}
+
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{5.3cm} >{\raggedright\arraybackslash}p{5.3cm}}
+        \toprule
+        \textbf{Concepto} & \textbf{Actividad 2 (hechos)} & \textbf{Actividad 3 (estructuras y listas)} \\
+        \midrule
+        Aristas & nueve hechos \texttt{arista(Origen, Destino, Costo).}
+                & seis hechos \texttt{nodo(Ciudad, Enlaces)}; \texttt{Enlaces} es una lista de estructuras \texttt{enlace(Destino, Costo)} \\
+        Arista directa & hecho \texttt{arista/3}
+                       & \texttt{conexion\_directa/3}: \texttt{nodo(A, Es), member(enlace(B, C), Es)} \\
+        \texttt{conectado\_con/4}, \texttt{tiene\_aristas/1}, \texttt{recorrer/5}, \texttt{ruta\_ingenua/2}
+                       & usan \texttt{arista/3}
+                       & usan \texttt{conexion\_directa/3} \\
+        Vecinos de un nodo & no existía
+                           & \texttt{vecinos\_de/2} devuelve la lista con \texttt{findall/3} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Decisiones de diseño:
+
+\begin{itemize}
+    \item El predicado \texttt{arista/3} desaparece. Todo acceso a las aristas
+          pasa por \texttt{conexion\_directa/3}, que es la única regla que
+          recorre las listas; el resto del programa no depende de cómo se
+          guardan.
+    \item Winnipeg no tiene aristas de salida pero sí debe tener su hecho:
+          \texttt{nodo(winnipeg, [])}. Si faltara, \texttt{tiene\_aristas/1}
+          seguiría respondiendo \texttt{true} (porque Winnipeg es destino),
+          pero \texttt{vecinos\_de(winnipeg, V)} fallaría en lugar de
+          responder \texttt{V = []}.
+    \item Se conservó \texttt{ruta\_ingenua/2} porque la Actividad 2 la usa
+          para mostrar que el árbol SLD es infinito por el ciclo
+          Edmonton $\to$ Saskatoon $\to$ Calgary $\to$ Edmonton. La versión
+          segura (\texttt{camino/4}, \texttt{hay\_camino/2}) sigue usando
+          una lista de nodos visitados.
+\end{itemize}
+
+\section{Código}
+
+\lstinputlisting[caption={ProgIIIG1-Act03-Pto02-Andres\_David\_Rincon\_Salazar.pl}]{../ProgIIIG1-Act03-Pto02-Andres_David_Rincon_Salazar.pl}
+
+\newpage
+
+
+%===============================================================================
+% REPOSITORIO
+%===============================================================================
+\chapter{Repositorio}
+
+El código fuente de esta actividad y el de las demás actividades del semestre está disponible en GitHub; el historial de versiones del repositorio sirve como soporte del trabajo realizado:
+
+\begin{center}
+    \url{https://github.com/1594-adrs/ProgIIIG1-Andres_David_Rincon_Salazar}
+\end{center}
+
+
+\end{document}
