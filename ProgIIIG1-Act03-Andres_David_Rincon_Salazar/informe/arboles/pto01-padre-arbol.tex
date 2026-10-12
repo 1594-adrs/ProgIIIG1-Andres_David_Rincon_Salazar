@@ -1,0 +1,66 @@
+\begin{forest} arbolsld
+[{padre\_de($P_{0}$,bart)}
+  [{progenitor\_de($P_{0}$,bart),\\hombre($P_{0}$)}
+    [{familia($Progenitores_{0}$,$Hijos_{0}$),\\member(bart,$Hijos_{0}$),\\member($P_{0}$,$Progenitores_{0}$),\\hombre($P_{0}$)}
+      [{\ligadura{$Progenitores_{0}$/\lbrack abraham,mona\rbrack , $Hijos_{0}$/\lbrack homero\rbrack}\\member(bart,\lbrack homero\rbrack ),\\member($P_{0}$,\lbrack abraham,mona\rbrack ),\\hombre($P_{0}$)}
+        [{member(bart,\lbrack\rbrack ),\\member($P_{0}$,\lbrack abraham,mona\rbrack ),\\hombre($P_{0}$)}
+          [{false}, fallo
+          ]
+        ]
+      ]
+      [{\ligadura{$Progenitores_{0}$/\lbrack abraham\rbrack , $Hijos_{0}$/\lbrack herbert\rbrack}\\member(bart,\lbrack herbert\rbrack ),\\member($P_{0}$,\lbrack abraham\rbrack ),\\hombre($P_{0}$)}
+        [{member(bart,\lbrack\rbrack ),\\member($P_{0}$,\lbrack abraham\rbrack ),\\hombre($P_{0}$)}
+          [{false}, fallo
+          ]
+        ]
+      ]
+      [{\ligadura{$Progenitores_{0}$/\lbrack homero,marge\rbrack , $Hijos_{0}$/\lbrack bart,lisa,maggie\rbrack}\\member(bart,\lbrack bart,lisa,maggie\rbrack ),\\member($P_{0}$,\lbrack homero,marge\rbrack ),\\hombre($P_{0}$)}
+        [{member($P_{0}$,\lbrack homero,marge\rbrack ),\\hombre($P_{0}$)}
+          [{\ligadura{$P_{0}$/homero}\\hombre(homero)}
+            [{persona(homero,masculino)}
+              [{true}, exito
+              ]
+            ]
+          ]
+          [{member($P_{0}$,\lbrack marge\rbrack ),\\hombre($P_{0}$)}
+            [{\ligadura{$P_{0}$/marge}\\hombre(marge)}
+              [{persona(marge,masculino)}
+                [{false}, fallo
+                ]
+              ]
+            ]
+            [{member($P_{0}$,\lbrack\rbrack ),\\hombre($P_{0}$)}
+              [{false}, fallo
+              ]
+            ]
+          ]
+        ]
+        [{member(bart,\lbrack lisa,maggie\rbrack ),\\member($P_{0}$,\lbrack homero,marge\rbrack ),\\hombre($P_{0}$)}
+          [{member(bart,\lbrack maggie\rbrack ),\\member($P_{0}$,\lbrack homero,marge\rbrack ),\\hombre($P_{0}$)}
+            [{member(bart,\lbrack\rbrack ),\\member($P_{0}$,\lbrack homero,marge\rbrack ),\\hombre($P_{0}$)}
+              [{false}, fallo
+              ]
+            ]
+          ]
+        ]
+      ]
+      [{\ligadura{$Progenitores_{0}$/\lbrack clancy,jacqueline\rbrack , $Hijos_{0}$/\lbrack patty,selma,marge\rbrack}\\member(bart,\lbrack patty,selma,marge\rbrack ),\\member($P_{0}$,\lbrack clancy,jacqueline\rbrack ),\\hombre($P_{0}$)}
+        [{member(bart,\lbrack selma,marge\rbrack ),\\member($P_{0}$,\lbrack clancy,jacqueline\rbrack ),\\hombre($P_{0}$)}
+          [{member(bart,\lbrack marge\rbrack ),\\member($P_{0}$,\lbrack clancy,jacqueline\rbrack ),\\hombre($P_{0}$)}
+            [{member(bart,\lbrack\rbrack ),\\member($P_{0}$,\lbrack clancy,jacqueline\rbrack ),\\hombre($P_{0}$)}
+              [{false}, fallo
+              ]
+            ]
+          ]
+        ]
+      ]
+      [{\ligadura{$Progenitores_{0}$/\lbrack selma\rbrack , $Hijos_{0}$/\lbrack ling\rbrack}\\member(bart,\lbrack ling\rbrack ),\\member($P_{0}$,\lbrack selma\rbrack ),\\hombre($P_{0}$)}
+        [{member(bart,\lbrack\rbrack ),\\member($P_{0}$,\lbrack selma\rbrack ),\\hombre($P_{0}$)}
+          [{false}, fallo
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{forest}

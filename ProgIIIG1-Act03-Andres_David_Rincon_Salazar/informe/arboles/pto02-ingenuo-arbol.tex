@@ -1,0 +1,95 @@
+\begin{forest} arbolsld
+[{ruta\_ingenua(edmonton,calgary)}
+  [{conexion\_directa(edmonton,calgary,$C_{0}$)}
+    [{nodo(edmonton,$Enlaces_{0}$),\\member(enlace(calgary,$C_{0}$),$Enlaces_{0}$)}
+      [{\ligadura{$Enlaces_{0}$/\lbrack enlace(saskatoon,12)\rbrack}\\member(enlace(calgary,$C_{0}$),\lbrack enlace(saskatoon,12)\rbrack )}
+        [{member(enlace(calgary,$C_{0}$),\lbrack\rbrack )}
+          [{false}, fallo
+          ]
+        ]
+      ]
+    ]
+  ]
+  [{conexion\_directa(edmonton,$Intermedio_{0}$,$C_{0}$),\\ruta\_ingenua($Intermedio_{0}$,calgary)}
+    [{nodo(edmonton,$Enlaces_{0}$),\\member(enlace($Intermedio_{0}$,$C_{0}$),$Enlaces_{0}$),\\ruta\_ingenua($Intermedio_{0}$,calgary)}
+      [{\ligadura{$Enlaces_{0}$/\lbrack enlace(saskatoon,12)\rbrack}\\member(enlace($Intermedio_{0}$,$C_{0}$),\lbrack enlace(saskatoon,12)\rbrack ),\\ruta\_ingenua($Intermedio_{0}$,calgary)}
+        [{\ligadura{$Intermedio_{0}$/saskatoon, $C_{0}$/12}\\ruta\_ingenua(saskatoon,calgary)}
+          [{conexion\_directa(saskatoon,calgary,$C_{1}$)}
+            [{nodo(saskatoon,$Enlaces_{1}$),\\member(enlace(calgary,$C_{1}$),$Enlaces_{1}$)}
+              [{\ligadura{$Enlaces_{1}$/\lbrack enlace(calgary,9),enlace(winnipeg,20)\rbrack}\\member(enlace(calgary,$C_{1}$),\lbrack enlace(calgary,9),enlace(winnipeg,20)\rbrack )}
+                [{\ligadura{$C_{1}$/9}\\true}, exito
+                ]
+                [{member(enlace(calgary,$C_{1}$),\lbrack enlace(winnipeg,20)\rbrack )}
+                  [{member(enlace(calgary,$C_{1}$),\lbrack\rbrack )}
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          [{conexion\_directa(saskatoon,$Intermedio_{1}$,$C_{1}$),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+            [{nodo(saskatoon,$Enlaces_{1}$),\\member(enlace($Intermedio_{1}$,$C_{1}$),$Enlaces_{1}$),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+              [{\ligadura{$Enlaces_{1}$/\lbrack enlace(calgary,9),enlace(winnipeg,20)\rbrack}\\member(enlace($Intermedio_{1}$,$C_{1}$),\lbrack enlace(calgary,9),enlace(winnipeg,20)\rbrack ),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+                [{\ligadura{$Intermedio_{1}$/calgary, $C_{1}$/9}\\ruta\_ingenua(calgary,calgary)}
+                  [{conexion\_directa(calgary,calgary,$C_{2}$)}
+                    [{nodo(calgary,$Enlaces_{2}$),\\member(enlace(calgary,$C_{2}$),$Enlaces_{2}$)}
+                      [{\ligadura{$Enlaces_{2}$/\lbrack enlace(edmonton,4),enlace(regina,14)\rbrack}\\member(enlace(calgary,$C_{2}$),\lbrack enlace(edmonton,4),enlace(regina,14)\rbrack )}
+                        [{member(enlace(calgary,$C_{2}$),\lbrack enlace(regina,14)\rbrack )}
+                          [{$\cdots$}, corte]
+                        ]
+                      ]
+                    ]
+                  ]
+                  [{conexion\_directa(calgary,$Intermedio_{2}$,$C_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                    [{nodo(calgary,$Enlaces_{2}$),\\member(enlace($Intermedio_{2}$,$C_{2}$),$Enlaces_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                      [{\ligadura{$Enlaces_{2}$/\lbrack enlace(edmonton,4),enlace(regina,14)\rbrack}\\member(enlace($Intermedio_{2}$,$C_{2}$),\lbrack enlace(edmonton,4),enlace(regina,14)\rbrack ),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                        [{\ligadura{$Intermedio_{2}$/edmonton, $C_{2}$/4}\\ruta\_ingenua(edmonton,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                        [{member(enlace($Intermedio_{2}$,$C_{2}$),\lbrack enlace(regina,14)\rbrack ),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                          [{$\cdots$}, corte]
+                          [{$\cdots$}, corte]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+                [{member(enlace($Intermedio_{1}$,$C_{1}$),\lbrack enlace(winnipeg,20)\rbrack ),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+                  [{\ligadura{$Intermedio_{1}$/winnipeg, $C_{1}$/20}\\ruta\_ingenua(winnipeg,calgary)}
+                    [{conexion\_directa(winnipeg,calgary,$C_{2}$)}
+                      [{nodo(winnipeg,$Enlaces_{2}$),\\member(enlace(calgary,$C_{2}$),$Enlaces_{2}$)}
+                        [{\ligadura{$Enlaces_{2}$/\lbrack\rbrack}\\member(enlace(calgary,$C_{2}$),\lbrack\rbrack )}
+                          [{false}, fallo
+                          ]
+                        ]
+                      ]
+                    ]
+                    [{conexion\_directa(winnipeg,$Intermedio_{2}$,$C_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                      [{nodo(winnipeg,$Enlaces_{2}$),\\member(enlace($Intermedio_{2}$,$C_{2}$),$Enlaces_{2}$),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                        [{\ligadura{$Enlaces_{2}$/\lbrack\rbrack}\\member(enlace($Intermedio_{2}$,$C_{2}$),\lbrack\rbrack ),\\ruta\_ingenua($Intermedio_{2}$,calgary)}
+                          [{false}, fallo
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  [{member(enlace($Intermedio_{1}$,$C_{1}$),\lbrack\rbrack ),\\ruta\_ingenua($Intermedio_{1}$,calgary)}
+                    [{false}, fallo
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [{member(enlace($Intermedio_{0}$,$C_{0}$),\lbrack\rbrack ),\\ruta\_ingenua($Intermedio_{0}$,calgary)}
+          [{false}, fallo
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{forest}

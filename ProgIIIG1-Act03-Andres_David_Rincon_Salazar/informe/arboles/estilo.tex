@@ -1,0 +1,14 @@
+\newcommand{\ligadura}[1]{{\tiny\color{blue!60!black}$\{$#1$\}$}}
+\forestset{
+  arbolsld/.style={
+    for tree={
+      font=\scriptsize, align=center, inner sep=1pt,
+      l sep=10pt, s sep=6pt, parent anchor=south, child anchor=north,
+      edge={thin}
+    }
+  },
+  exito/.style={font=\scriptsize\bfseries, text=green!50!black},
+  fallo/.style={font=\scriptsize\bfseries, text=red!70!black},
+  corte/.style={},
+  negacion/.style={draw, rounded corners=1pt, inner sep=2pt},
+}
