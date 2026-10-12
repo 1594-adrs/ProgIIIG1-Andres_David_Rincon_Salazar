@@ -1,0 +1,378 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{forest}
+\usepackage{pdflscape}
+\usepackage{adjustbox}
+\input{arboles/estilo}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\graphicspath{{plantilla/}}
+
+\lstset{
+    language=Prolog,
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    framesep=4pt,
+    tabsize=4,
+    aboveskip=8pt,
+    belowskip=8pt
+}
+
+\def \unidad{\textbf{Facultad de Ingenierías}}
+\def \programa{Ingeniería de Sistemas y Computación}
+\def \curso{IS453}
+\def \titulo{ProgIIIG1}
+\def \subtitulo {Actividad03 : Casos con Listas}
+\def \autores{
+    Andrés David Rincón Salazar\\
+    andres.rincon2@utp.edu.co\\
+    ID: 11.289.05.513\\
+}
+\def \fecha{- Octubre 2026 -}
+\def \lugar{\textbf{Pereira, Colombia}}
+
+
+\begin{document}
+\input{plantilla/portada}
+\tableofcontents
+\newpage
+
+
+%===============================================================================
+% INTRODUCCION
+%===============================================================================
+\chapter{Introducción}
+
+Esta actividad retoma dos ejercicios ya resueltos con hechos simples y los
+reescribe usando \textbf{estructuras} (términos compuestos) y
+\textbf{listas}. Las reglas se modificaron para que, aun con la nueva
+representación de los datos, el programa resuelva exactamente las mismas
+consultas:
+
+\begin{itemize}
+    \item \textbf{Punto 1:} familia Simpson (numeral 1 de la Actividad 1).
+          Los hechos \texttt{padre\_de/2}, \texttt{madre\_de/2},
+          \texttt{hombre/1} y \texttt{mujer/1} se reemplazan por las
+          estructuras \texttt{persona(Nombre, Sexo)} y
+          \texttt{familia(Progenitores, Hijos)}, donde los dos argumentos de
+          \texttt{familia/2} son listas.
+    \item \textbf{Punto 2:} ciudades de Canadá (punto 3 de la Actividad 2).
+          Los hechos \texttt{arista(Origen, Destino, Costo)} se reemplazan
+          por una lista de adyacencia por ciudad,
+          \texttt{nodo(Ciudad, [enlace(Destino, Costo), \ldots])}.
+\end{itemize}
+
+Cada programa conserva su encabezado descriptivo (propósito, predicados y
+salvedades), comentarios de sección y un bloque de consultas de validación.
+
+\section*{Verificación de equivalencia}
+
+Que ``siga resolviendo las mismas consultas'' se comprobó de forma
+automática y no solo con las consultas del encabezado. Se cargaron el
+programa original y el nuevo en SWI-Prolog 10.0.2 y se compararon sus
+respuestas:
+
+\begin{itemize}
+    \item \textbf{Simpson:} para cada uno de los 11 predicados de parentesco
+          se probaron los $13 \times 13$ pares de individuos, y se
+          comparó además la enumeración completa con ambos argumentos sin
+          instanciar y el sexo de cada individuo. Los conjuntos de
+          respuestas son idénticos. El orden de las soluciones sí puede
+          cambiar, porque ahora se recorren listas y no hechos sueltos.
+    \item \textbf{Canadá:} se compararon, con el orden de las soluciones,
+          \texttt{conexion\_directa/3}, \texttt{conectado\_con/4},
+          \texttt{tiene\_aristas/1}, \texttt{camino/4}, \texttt{hay\_camino/2}
+          y \texttt{costo\_via/4} sobre todos los pares y ternas de las seis
+          ciudades más Toronto. Las respuestas son idénticas, también en
+          orden, porque las listas de adyacencia conservan el orden de los
+          hechos originales.
+\end{itemize}
+
+\section*{Árboles de decisión (SLD)}
+
+Como en la Actividad 2, al final de cada punto se incluye el árbol SLD de
+su consulta principal, generado con el paquete \emph{SLDNF Draw} de
+SWI-Prolog (\texttt{pack\_install(sldnfdraw)}) a partir de las mismas
+cláusulas del programa y dibujado con el paquete \texttt{forest} de
+\LaTeX{}. Los archivos de entrada y el script que los regenera están en
+\texttt{arboles/fuentes}. Para que la herramienta pueda dibujarlos, en esos
+archivos \verb|\+| se escribe \texttt{not/1} (es la misma negación por
+fallo), las variables anónimas \texttt{\_} llevan nombre y
+\texttt{member/2} se escribe con sus dos cláusulas estándar. Esto último es
+deliberado: con listas, el recorrido de \texttt{member/2} es justo lo que
+hay que ver en el árbol. La notación es la de la Actividad 2:
+
+\begin{itemize}
+    \item Cada nodo es el resolvente (los objetivos pendientes); las
+          variables llevan un subíndice que indica en qué paso de
+          resolución fueron renombradas.
+    \item El texto azul entre llaves es la ligadura (sustitución) que
+          produjo la unificación con la cláusula elegida.
+    \item Un recuadro es una negación por fallo: dentro está el subárbol
+          de \texttt{memberchk/2} y su resultado.
+    \item \textbf{true} (verde) es una rama de éxito, \textbf{false} (rojo)
+          una rama fallida y $\cdots$ un subárbol que existe pero no se
+          dibuja.
+    \item Prolog recorre el árbol en profundidad y de izquierda a derecha;
+          el \emph{backtracking} es el paso de una rama a la siguiente rama
+          hermana a la derecha.
+\end{itemize}
+
+Una consecuencia de usar listas: el mismo razonamiento necesita más niveles
+que con hechos sueltos, porque cada acceso a un hecho de la Actividad 1 o 2
+pasa ahora por un hecho \texttt{familia/2} o \texttt{nodo/2} y por un
+recorrido de \texttt{member/2}. Los árboles son anchos o altos; el PDF es
+vectorial, así que se pueden ampliar sin perder nitidez.
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 1
+%===============================================================================
+\chapter{Punto 1: Familia Simpson}
+
+\section{Cambio de representación}
+
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{5.3cm} >{\raggedright\arraybackslash}p{5.3cm}}
+        \toprule
+        \textbf{Concepto} & \textbf{Actividad 1 (hechos)} & \textbf{Actividad 3 (estructuras y listas)} \\
+        \midrule
+        Padres e hijos & \texttt{padre\_de(homero, bart).}\newline \texttt{madre\_de(marge, bart).}
+                       & \texttt{familia([homero, marge], [bart, lisa, maggie]).} \\
+        Sexo & \texttt{hombre(herbert).}\newline y reglas \texttt{hombre(N) :- padre\_de(N, \_).}
+             & \texttt{persona(herbert, masculino).} \\
+        \texttt{padre\_de/2}, \texttt{madre\_de/2} & hechos
+             & reglas: \texttt{progenitor\_de/2} filtrado por \texttt{hombre/1} o \texttt{mujer/1} \\
+        \texttt{progenitor\_de/2} & dos cláusulas (padre o madre)
+             & \texttt{member/2} sobre las listas de una \texttt{familia/2} \\
+        Hermanos, abuelos, primos & recorren \texttt{progenitor\_de/2} de a un hijo
+             & usan \texttt{hijos\_de/2}, que devuelve la lista de hijos con \texttt{findall/3} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Decisiones de diseño:
+
+\begin{itemize}
+    \item El sexo ya no se deduce de ``ser padre'' o ``ser madre'': se
+          declara una vez por persona. Por eso \texttt{padre\_de/2} y
+          \texttt{madre\_de/2} pasan a ser reglas, y los hechos
+          \texttt{hombre/1} y \texttt{mujer/1} dejan de estar repartidos
+          entre hechos y reglas (lo que causaba la advertencia de cláusulas
+          no contiguas de la Actividad 1).
+    \item Herbert y Ling tienen un solo progenitor conocido, así que cada
+          uno va en su propio \texttt{familia/2} con una lista de un
+          elemento. Meter a Herbert en la familia de Homero haría a Mona su
+          madre, algo que la Actividad 1 nunca afirmó.
+    \item Una persona sin hecho \texttt{persona/2} no tiene sexo, y las reglas
+          que lo exigen fallan para ella. Cada individuo nuevo debe
+          registrarse.
+\end{itemize}
+
+\section{Código}
+
+\lstinputlisting[caption={ProgIIIG1-Act03-Pto01-Andres\_David\_Rincon\_Salazar.pl}]{../ProgIIIG1-Act03-Pto01-Andres_David_Rincon_Salazar.pl}
+
+\section{Árbol SLD}
+
+Consulta dibujada: \texttt{padre\_de(P, bart)}. Es la consulta que mejor
+muestra el cambio de representación, porque obliga a recorrer las listas de
+\texttt{familia/2} y a filtrar por sexo con \texttt{persona/2}. El árbol se
+muestra completo (8 niveles) y es finito:
+
+\begin{itemize}
+    \item El primer nivel desarrolla \texttt{padre\_de/2} en
+          \texttt{progenitor\_de(P, bart), hombre(P)}, y el segundo
+          escoge un hecho \texttt{familia/2}. Hay cinco hechos, así que
+          hay cinco ramas hermanas.
+    \item En cuatro de ellas \texttt{member(bart, Hijos)} recorre la lista
+          de hijos hasta llegar a \texttt{[]} sin encontrar a Bart, y la
+          rama termina en \texttt{false}. Las familias de Herbert y de Ling
+          tienen un solo hijo, por eso esas ramas son cortas.
+    \item En \texttt{familia([homero, marge], [bart, lisa, maggie])} Bart
+          es la cabeza de la lista, así que la primera cláusula de
+          \texttt{member/2} tiene éxito. Luego
+          \texttt{member(P, [homero, marge])} produce \texttt{P = homero}
+          y \texttt{hombre(homero)} se reduce a
+          \texttt{persona(homero, masculino)}: es la única rama de éxito.
+    \item Al retroceder, \texttt{P = marge} llega a
+          \texttt{persona(marge, masculino)}, que no existe, y falla. Esa
+          es la rama donde el filtro \texttt{hombre/1} convierte a
+          \texttt{progenitor\_de/2} en \texttt{padre\_de/2}. Después Prolog
+          sigue recorriendo \texttt{[lisa, maggie]} en busca de otro
+          \texttt{bart}, que no hay.
+\end{itemize}
+
+\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \adjustbox{width=\linewidth, totalheight=0.85\textheight, keepaspectratio}{\input{arboles/pto01-padre-arbol}}
+    \caption{Árbol SLD completo de \texttt{padre\_de(P, bart)}.}
+\end{figure}
+\end{landscape}
+
+\newpage
+
+
+%===============================================================================
+% PUNTO 2
+%===============================================================================
+\chapter{Punto 2: Ciudades de Canadá}
+
+\section{Cambio de representación}
+
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{5.3cm} >{\raggedright\arraybackslash}p{5.3cm}}
+        \toprule
+        \textbf{Concepto} & \textbf{Actividad 2 (hechos)} & \textbf{Actividad 3 (estructuras y listas)} \\
+        \midrule
+        Aristas & nueve hechos \texttt{arista(Origen, Destino, Costo).}
+                & seis hechos \texttt{nodo(Ciudad, Enlaces)}; \texttt{Enlaces} es una lista de estructuras \texttt{enlace(Destino, Costo)} \\
+        Arista directa & hecho \texttt{arista/3}
+                       & \texttt{conexion\_directa/3}: \texttt{nodo(A, Es), member(enlace(B, C), Es)} \\
+        \texttt{conectado\_con/4}, \texttt{tiene\_aristas/1}, \texttt{recorrer/5}, \texttt{ruta\_ingenua/2}
+                       & usan \texttt{arista/3}
+                       & usan \texttt{conexion\_directa/3} \\
+        Vecinos de un nodo & no existía
+                           & \texttt{vecinos\_de/2} devuelve la lista con \texttt{findall/3} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Decisiones de diseño:
+
+\begin{itemize}
+    \item El predicado \texttt{arista/3} desaparece. Todo acceso a las aristas
+          pasa por \texttt{conexion\_directa/3}, que es la única regla que
+          recorre las listas; el resto del programa no depende de cómo se
+          guardan.
+    \item Winnipeg no tiene aristas de salida pero sí debe tener su hecho:
+          \texttt{nodo(winnipeg, [])}. Si faltara, \texttt{tiene\_aristas/1}
+          seguiría respondiendo \texttt{true} (porque Winnipeg es destino),
+          pero \texttt{vecinos\_de(winnipeg, V)} fallaría en lugar de
+          responder \texttt{V = []}.
+    \item Se conservó \texttt{ruta\_ingenua/2} porque la Actividad 2 la usa
+          para mostrar que el árbol SLD es infinito por el ciclo
+          Edmonton $\to$ Saskatoon $\to$ Calgary $\to$ Edmonton. La versión
+          segura (\texttt{camino/4}, \texttt{hay\_camino/2}) sigue usando
+          una lista de nodos visitados.
+\end{itemize}
+
+\section{Código}
+
+\lstinputlisting[caption={ProgIIIG1-Act03-Pto02-Andres\_David\_Rincon\_Salazar.pl}]{../ProgIIIG1-Act03-Pto02-Andres_David_Rincon_Salazar.pl}
+
+\section{Árboles SLD}
+
+\subsection{Versión segura (árbol completo)}
+
+\begin{sloppypar}
+Consulta dibujada: \texttt{recorrer(edmonton, calgary, [edmonton], R, C)},
+que es el núcleo de \texttt{camino(edmonton, calgary, Nodos, Costo)}. El
+árbol se muestra completo y es finito:
+\end{sloppypar}
+
+\begin{itemize}
+    \item Tiene una sola rama de éxito, con
+          \texttt{R = [calgary, saskatoon, edmonton]} y
+          \texttt{C = 21}. \texttt{camino/4} invierte la lista y
+          responde \texttt{[edmonton, saskatoon, calgary]}.
+    \item Cada paso por el grafo se desdobla en tres niveles:
+          \texttt{conexion\_directa/3}, el hecho \texttt{nodo/2} que
+          entrega la lista de enlaces y el recorrido de esa lista con
+          \texttt{member/2}. En la Actividad 2 el mismo paso era un solo
+          nivel (\texttt{arista/3}). Cuando la lista tiene más de un
+          enlace, la segunda cláusula de \texttt{member/2} produce la rama
+          hermana con el resto de la lista (por ejemplo
+          \texttt{enlace(regina, 14)} después de
+          \texttt{enlace(edmonton, 4)}).
+    \item Al seguir buscando desde Calgary, el enlace hacia Edmonton se
+          poda porque \texttt{memberchk(edmonton, ...)} es verdadero: la
+          lista de visitados corta el ciclo que hace infinita a la versión
+          ingenua.
+    \item Las demás ramas terminan en \texttt{false}: o vuelven a un nodo
+          ya visitado, o llegan a Winnipeg, cuya lista de enlaces es
+          \texttt{[]}, de modo que \texttt{member/2} falla de inmediato.
+\end{itemize}
+\begin{figure}[p]
+    \centering
+    \adjustbox{width=\linewidth, totalheight=0.9\textheight, keepaspectratio}{\input{arboles/pto02-seguro-arbol}}
+    \caption{Árbol SLD completo de \texttt{recorrer(edmonton, calgary, [edmonton], R, C)}.}
+\end{figure}
+
+\subsection{Versión ingenua (árbol infinito)}
+
+Consulta dibujada: \texttt{ruta\_ingenua(edmonton, calgary)}. Este árbol
+es infinito, así que se corta en el nivel 13, donde el objetivo inicial
+\texttt{ruta\_ingenua(edmonton, calgary)} reaparece en la rama izquierda
+tras una vuelta completa al ciclo \texttt{edmonton $\to$ saskatoon
+$\to$ calgary $\to$ edmonton}:
+
+\begin{itemize}
+    \item La primera cláusula de \texttt{ruta\_ingenua/2} falla de
+          inmediato (Edmonton no tiene enlace directo a Calgary: su lista
+          es \texttt{[enlace(saskatoon, 12)]}). La segunda avanza a
+          Saskatoon.
+    \item En el nivel 8 aparece la primera rama de éxito:
+          \texttt{ruta\_ingenua(saskatoon, calgary)} se resuelve con
+          \texttt{enlace(calgary, 9)}, la cabeza de la lista de Saskatoon.
+          Es el primer \texttt{true} que imprime Prolog.
+    \item En el nivel 12 el objetivo inicial vuelve a aparecer. Cada vuelta
+          al ciclo cuesta ahora 12 niveles y no 3 como en la Actividad 2,
+          porque cada arista se desarrolla en \texttt{conexion\_directa/3},
+          \texttt{nodo/2} y \texttt{member/2}; el comportamiento es el
+          mismo: un \texttt{true} por vuelta, sin terminar nunca.
+    \item Las ramas de la derecha (por Regina y Winnipeg) existen en el
+          árbol, pero Prolog nunca llega a ellas: la búsqueda en
+          profundidad se queda para siempre en la rama infinita de la
+          izquierda. Por eso la estrategia de búsqueda de Prolog (en
+          profundidad) no es completa.
+\end{itemize}
+\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \adjustbox{width=\linewidth, totalheight=0.85\textheight, keepaspectratio}{\input{arboles/pto02-ingenuo-arbol}}
+    \caption{Árbol SLD de \texttt{ruta\_ingenua(edmonton, calgary)} (13 primeros niveles de un árbol infinito).}
+\end{figure}
+\end{landscape}
+
+\newpage
+
+
+%===============================================================================
+% REPOSITORIO
+%===============================================================================
+\chapter{Repositorio}
+
+El código fuente de esta actividad y el de las demás actividades del semestre está disponible en GitHub; el historial de versiones del repositorio sirve como soporte del trabajo realizado:
+
+\begin{center}
+    \url{https://github.com/1594-adrs/ProgIIIG1-Andres_David_Rincon_Salazar}
+\end{center}
+
+
+\end{document}
